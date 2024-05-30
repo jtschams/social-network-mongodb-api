@@ -1,5 +1,5 @@
 const { connect, connection } = require('mongoose');
-// TODO
-connect('mongodb://127.0.0.1:27017/renamethis');
+ 
+connect('mongodb://127.0.0.1:27017/networkdb');
 
 module.exports = connection;

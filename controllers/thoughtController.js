@@ -1,4 +1,4 @@
-// TODO: thoughts routes
+// TODO: thoughts controllers
 // /api/thoughts
 
 // GET to get all thoughts

@@ -1,4 +1,4 @@
-// TODO: users routes
+// TODO: users controllers
 // /api/users
 
 // GET all users
