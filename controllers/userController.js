@@ -6,7 +6,7 @@ module.exports =  {
       const users = await User.find();
       return res.status(200).json(users);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async getOneUser(req, res) {
@@ -18,7 +18,7 @@ module.exports =  {
 
       return res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async addUser(req, res) {
@@ -29,7 +29,7 @@ module.exports =  {
       const user = await User.create(req.body);
       return res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async addFriend(req, res) {
@@ -51,7 +51,7 @@ module.exports =  {
       
       return res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async editUser(req, res) {
@@ -68,7 +68,7 @@ module.exports =  {
       
       return res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async deleteUser(req, res) {
@@ -81,13 +81,13 @@ module.exports =  {
       
       await Thought.deleteMany({ _id: { $in: user.thoughts } });
       await User.updateMany(
-        { friends: { $elemMatch: { _id: req.params.userId } } },
+        { friends: { $elemMatch: req.params.userId } },
         { $pull: { friends: req.params.userId } }
       );
       
       return res.json(200).json('Successfully deleted user and asssociated thoughts.')
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   async deleteFriend(req, res) {
@@ -112,7 +112,7 @@ module.exports =  {
       
       return res.status(200).json('User removed from friend list.');
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   }
 }
