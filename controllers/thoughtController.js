@@ -23,3 +23,12 @@
 // POST to create a reaction stored in a single thought's reactions array field
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
+module.exports = {
+  getAllThought,
+  getOneThought,
+  addThought,
+  addReaction,
+  editThought,
+  deleteThought,
+  deleteReaction
+}
