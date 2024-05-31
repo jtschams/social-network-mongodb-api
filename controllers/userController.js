@@ -44,6 +44,11 @@ module.exports =  {
         { $addToSet: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
+      await User.findOneAndUpdate(
+        { _id: req.params.friendId},
+        { $addToSet: { friends: req.params.userId } },
+        { runValidators: true, new: true }
+      );
       
       if (!user) {
         return res.status(404).json('No user found for userId.');
@@ -79,13 +84,17 @@ module.exports =  {
         return res.status(404).json('No user found for that id.')
       }
       
-      await Thought.deleteMany({ _id: { $in: user.thoughts } });
-      await User.updateMany(
-        { friends: { $elemMatch: req.params.userId } },
-        { $pull: { friends: req.params.userId } }
-      );
+      if (user.thoughts.length){
+        await Thought.deleteMany({ _id: { $in: user.thoughts } });
+      }
+      if (user.friends.length) {
+        await User.updateMany(
+          { friends: req.params.userId },
+          { $pull: { friends: req.params.userId } }
+        );
+      }
       
-      return res.json(200).json('Successfully deleted user and asssociated thoughts.')
+      return res.status(200).json('Successfully deleted user and asssociated thoughts.')
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -99,8 +108,7 @@ module.exports =  {
       
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: req.params.friendId } },
-        { new: true }
+        { $pull: { friends: req.params.friendId } }
       );
       
       if (!user) {
