@@ -110,6 +110,10 @@ module.exports =  {
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } }
       );
+      await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friends: req.params.userId } }
+      );
       
       if (!user) {
         return res.status(404).json('No user found for that id.');
